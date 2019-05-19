@@ -1,6 +1,6 @@
 # About The Task
 
-You are given a data set containing a list of comments. For each comment, we want to know the score per category. These categories are dynamic (can be anything you choose and contain words that are assigned to the category. Scores are the amount of space the words take up in the comment.
+You are given a data set containing a list of comments. For each comment, we want to know the score per category. These categories are dynamic (can be anything you choose and contain words that are assigned to the category). Scores are the amount of space the words take up in the comment.
 
 **Example**:
 "The quick brown fox jumps over the lazy dog"
@@ -41,7 +41,7 @@ This class has been designed in this way so it can be extended with different ty
 ## Getting Started
 First, clone this repo using `git clone [url of this repo]`.
 
-To use the natural language processing (NPL) library to parse parts of speech, run 'npm install compromise' to install [Compromise](http://compromise.cool/)
+To use the natural language processing (NPL) library to parse parts of speech, run `npm install compromise` to install [Compromise](http://compromise.cool/)
 
 Run `node index.js` which contains some default test functions. Feel free to change the functions with the ones you want to test (see 'Using the Categorizer' below).
 
@@ -59,7 +59,7 @@ Then, choose a categorizer function to create the categories:
 
 Examples:
 
-````
+```
 abcs.createABCsCategories(abcs.comments);
 abcs.createNLPcategories(abcs.comments);
 ```
