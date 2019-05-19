@@ -1,4 +1,5 @@
 const data = require('./demo.js')
+var nlp = require('compromise');
 
 class Categorizer {
   constructor(data) {
@@ -42,6 +43,19 @@ class Categorizer {
     });
     console.log('each comment categorized by first character of the word: ', this.categories)
   }
+  
+  getNLPcategories(comments) {
+    comments.map(comment => {
+      const nouns = nlp(comment).nouns().out('array');
+      const verbs = nlp(comment).verbs().out('array');
+      let newCategory = {
+        'nouns': nouns,
+        'verbs': verbs
+      }
+      this.categories.push(newCategory);
+    })
+    console.log('each comment categorized by verbs and noun phrases ', this.categories)
+  }
 
   getScoreByCategory(comment, category) {
     const selectedComment = this.comments.filter(storedComment => storedComment === comment)[0];
@@ -68,11 +82,15 @@ class Categorizer {
   }
 }
 
-
-/* Create new Categorizer instance. Get the comments and create categories based on first character from the dataset */
+/* Create new Categorizer instance and store the comments in an array */
 const abcs = new Categorizer(data);
 abcs.getComments(data);
+
+/* Create categories by first letter of the word */
 abcs.createABCsCategories(abcs.comments);
+
+/* Create categories by parts of speech (nouns or verbs) */
+abcs.getNLPcategories(abcs.comments);
 
 /* should return 14.55% */
 abcs.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'a'); 
@@ -85,6 +103,9 @@ abcs.getScoreByCategory('Delightful =) Adore the use of gradient and background!
 
 /* should return 'This comment is not found in the data set */
 abcs.getScoreByCategory('Not a real comment', 'a');
+
+/* should return 41.82% */
+abcs.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'nouns'); 
 
 
 
