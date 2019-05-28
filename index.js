@@ -5,11 +5,11 @@ class Categorizer {
   
   constructor() {
     this.categories = []
+    this.comments = data;
   }
 
-  createABCsCategories(data) {
-    data.map((comment) => {
-      let firstletters = [];
+  createABCsCategories(comments) {
+    comments.map((comment) => {
       let words = comment.split(' ');
       let categories = {};
   
@@ -27,8 +27,8 @@ class Categorizer {
     console.log('each comment categorized by first character of the word: ', this.categories)
   }
   
-  getNLPcategories(data) {
-    data.map(comment => {
+  getNLPcategories(comments) {
+    comments.map(comment => {
       const nouns = nlp(comment).nouns().out('array');
       const verbs = nlp(comment).verbs().out('array');
       let newCategory = {
@@ -41,10 +41,10 @@ class Categorizer {
   }
 
   getScoreByCategory(comment, category) {
-    const selectedComment = data.filter(storedComment => storedComment === comment)[0];
+    const selectedComment = comments.filter(storedComment => storedComment === comment)[0];
     if (selectedComment) {
       const totalCharacters = selectedComment.length;
-      const index = data.indexOf(selectedComment);
+      const index = comments.indexOf(selectedComment);
       const categoriesForSelectedComment = this.categories[index];
 
       if (categoriesForSelectedComment[category]) {
@@ -74,19 +74,19 @@ categorizer.createABCsCategories(data);
 /* Create categories by parts of speech (nouns or verbs) */
 categorizer.getNLPcategories(data);
 
-// /* should return 14.55% */
+/* should return 14.55% */
 categorizer.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'a'); 
 
-// /* should return 18.60% */
+/* should return 18.60% */
 categorizer.getScoreByCategory('Let me take a nap... great concept, anyway.', 'a'); 
 
-// /* should return 'That category does not exist for this comment */
+/* should return 'That category does not exist for this comment */
 categorizer.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'p'); 
 
-// /* should return 'This comment is not found in the data set */
+/* should return 'This comment is not found in the data set */
 categorizer.getScoreByCategory('Not a real comment', 'a');
 
-// /* should return 41.82% */
+/* should return 41.82% */
 categorizer.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'nouns'); 
 
 

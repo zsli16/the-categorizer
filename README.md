@@ -56,8 +56,8 @@ Choose a categorizer function to create the categories:
 Examples:
 
 ```
-categorizer.createABCsCategories(abcs.comments);
-categorizer.createNLPcategories(abcs.comments);
+categorizer.createABCsCategories(data);
+categorizer.createNLPcategories(data);
 ```
 
 Then feel free to test and calculate the scores for different comments and categories in this dataset using the `getScoreByCategory` function. 
