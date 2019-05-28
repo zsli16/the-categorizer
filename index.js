@@ -2,41 +2,24 @@ const data = require('./demo.js')
 var nlp = require('compromise');
 
 class Categorizer {
-  constructor(data) {
+  
+  constructor() {
     this.categories = []
-    this.data = data;
-    this.comments = [];
-  }
-
-  getComments(data) {
-    data.map(line => this.comments.push(line));
-    console.log('comments in this data set: ', this.comments);
+    this.comments = data;
   }
 
   createABCsCategories(comments) {
     comments.map((comment) => {
-      let firstletters = [];
       let words = comment.split(' ');
+      let categories = {};
   
       /* create a collection of unique categories */
       for (let i = 0; i < words.length; i++) {
         let firstLetter = words[i].charAt(0).toLowerCase();
-        firstletters.push(firstLetter);
-      }
-      let unique = new Set(firstletters);
-      unique = [...unique]
-  
-      /* add the words that belong to the category to its array */
-      let categories = {};
-      for (let i = 0; i < unique.length; i++) {
-        for (let j = 0; j < words.length; j++) {
-          if (words[j].charAt(0).toLowerCase() === unique[i]) {
-            if (!categories[unique[i]]) {
-              categories[unique[i]] = [words[j]]
-            } else {
-              categories[unique[i]].push(words[j])
-            }
-          }
+        if (!categories[firstLetter]) {
+          categories[firstLetter] = words[i]
+        } else {
+          categories[firstLetter] = [categories[firstLetter], words[i]]
         }
       }
       this.categories.push(categories);
@@ -58,10 +41,10 @@ class Categorizer {
   }
 
   getScoreByCategory(comment, category) {
-    const selectedComment = this.comments.filter(storedComment => storedComment === comment)[0];
+    const selectedComment = comments.filter(storedComment => storedComment === comment)[0];
     if (selectedComment) {
       const totalCharacters = selectedComment.length;
-      const index = this.comments.indexOf(selectedComment);
+      const index = comments.indexOf(selectedComment);
       const categoriesForSelectedComment = this.categories[index];
 
       if (categoriesForSelectedComment[category]) {
@@ -83,29 +66,28 @@ class Categorizer {
 }
 
 /* Create new Categorizer instance and store the comments in an array */
-const abcs = new Categorizer(data);
-abcs.getComments(data);
+const categorizer = new Categorizer(data);
 
 /* Create categories by first letter of the word */
-abcs.createABCsCategories(abcs.comments);
+categorizer.createABCsCategories(data);
 
 /* Create categories by parts of speech (nouns or verbs) */
-abcs.getNLPcategories(abcs.comments);
+categorizer.getNLPcategories(data);
 
 /* should return 14.55% */
-abcs.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'a'); 
+categorizer.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'a'); 
 
 /* should return 18.60% */
-abcs.getScoreByCategory('Let me take a nap... great concept, anyway.', 'a'); 
+categorizer.getScoreByCategory('Let me take a nap... great concept, anyway.', 'a'); 
 
 /* should return 'That category does not exist for this comment */
-abcs.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'p'); 
+categorizer.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'p'); 
 
 /* should return 'This comment is not found in the data set */
-abcs.getScoreByCategory('Not a real comment', 'a');
+categorizer.getScoreByCategory('Not a real comment', 'a');
 
 /* should return 41.82% */
-abcs.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'nouns'); 
+categorizer.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'nouns'); 
 
 
 

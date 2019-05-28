@@ -49,19 +49,15 @@ Run `node index.js` which contains some default test functions. Feel free to cha
 
 This file contains a Categorizer function that is instantiated with the sample dataset exported from `demo.js.` 
 
-`const abcs = new Categorizer(data);`
+`const categorizer = new Categorizer(data);`
 
-The Categorizer first needs to parse the comments from the dataset.
-
-`abcs.getComments(data);`
-
-Then, choose a categorizer function to create the categories:
+Choose a categorizer function to create the categories:
 
 Examples:
 
 ```
-abcs.createABCsCategories(abcs.comments);
-abcs.createNLPcategories(abcs.comments);
+categorizer.createABCsCategories(data);
+categorizer.createNLPcategories(data);
 ```
 
 Then feel free to test and calculate the scores for different comments and categories in this dataset using the `getScoreByCategory` function. 
@@ -72,10 +68,10 @@ Examples:
 
 ```
 /* should return a score of 14.55% */
-abcs.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'a'); 
+categorizer.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'a'); 
 
 /* should return a score of 41.82% */
-abcs.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'nouns'); 
+categorizer.getScoreByCategory('Delightful =) Adore the use of gradient and background!', 'nouns'); 
 
 ```
 
